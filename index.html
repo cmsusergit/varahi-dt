@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+      const SupabaseCred =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNjZmhwenVzYXd0Z2lvamF2aHhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQ3NTk4MDAsImV4cCI6MjAxMDMzNTgwMH0.Hb06Rl186b_4wEmcmIyIqTVUqfJn0rGHszpDlr6jaZQ';
+      const SupabaseUrl = 'https://ccfhpzusawtgiojavhxh.supabase.co';
+      const _supabase = supabase.createClient(SupabaseUrl, SupabaseCred);
+    </script>
+    <script src="./script.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    <main x-data="{}" class="mx-auto text-white w-full md:w-10/12 lg:w-8/12">
+      <div>
+        <h1 class="bg-orange-700 text-white text-2xl font-bold text-center p-2">
+          Varahi Group
+        </h1>
+      </div>
+
+      <form x-on:submit.prevent="getInfo();">
+        <div class="mt-2 border px-2 py-2 flex items-center flex-col gap-2">
+          <label class="w-full cursor-pointer" for="dropzone-file">
+            <div class="flex items-center justify-center w-full">
+              <div
+                class="
+                  flex
+                  bg-orange-700
+                  w-full
+                  flex-col
+                  items-center
+                  justify-center
+                  pt-5
+                  pb-6
+                "
+              >
+                <svg
+                  class="w-8 h-8 mb-4 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 14h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p class="mb-2 text-sm text-white">
+                  <span class="text-xl font-semibold"
+                    >Click to upload Form/Document</span
+                  >
+                </p>
+              </div>
+              <input id="dropzone-file" type="file" class="hidden" />
+            </div>
+          </label>
+          <label class="w-full cursor-pointer" for="dropzone-file">
+            <div class="flex items-center justify-center w-full">
+              <div
+                class="
+                  flex
+                  bg-orange-700
+                  w-full
+                  flex-col
+                  items-center
+                  justify-center
+                  pt-5
+                  pb-6
+                "
+              >
+                <svg
+                  class="w-8 h-8 mb-4 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 14h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p class="mb-2 text-sm text-white">
+                  <span class="text-xl font-semibold"
+                    >Click to upload Photo</span
+                  >
+                </p>
+              </div>
+              <input id="dropzone-file" type="file" class="hidden" />
+            </div>
+          </label>
+        </div>
+
+        <div class="w-full border p-2 justify-center flex">
+          <button
+            class="
+              bg-orange-700
+              text-white text-xl
+              p-2
+              w-48
+              hover:bg-orange-800
+              font-bold
+              rounded
+            "
+            type="submit"
+          >
+            SUBMIT
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
