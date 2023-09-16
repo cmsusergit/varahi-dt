@@ -12,6 +12,12 @@
       const _supabase = supabase.createClient(SupabaseUrl, SupabaseCred);
     </script>
     <script src="./script.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuid.min.js"
+      integrity="sha512-X0CJvcClD8EXFn5Oq8BD5lIsznKDfxb0Sf9Wr8MCCTyAEWaAAxr0Jvm3qyofsmN7eSHMZ0PPQGjVKroLAfexrA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script
       defer
@@ -20,7 +26,7 @@
   </head>
   <body>
     <main
-      x-data="{form_file:'',photo_file:''}"
+      x-data="{dt:{'photo_path':'',form_path:'',name:'',qrcode:''},returnDt:{}}"
       class="mx-auto text-white w-full md:w-10/12 lg:w-8/12"
     >
       <div>
@@ -28,8 +34,7 @@
           Varahi Group
         </h1>
       </div>
-
-      <form x-on:submit.prevent="getInfo();">
+      <form x-on:submit.prevent="returnDt=await getInfo(JSON.stringify(dt));">
         <div class="mt-2 border px-2 py-2 flex items-center flex-col gap-2">
           <label class="w-full cursor-pointer" for="dropzone-file">
             <div class="flex items-center justify-center w-full">
@@ -66,16 +71,16 @@
                   >
                 </p>
               </div>
-
               <input
-                x-on:change="form_file=uploadFile($event)"
+                x-on:change="dt.form_path=await uploadFile($event)"
                 id="dropzone-file"
                 type="file"
                 class="hidden"
+                accept="image/*"
               />
             </div>
           </label>
-          <p class="text-lg text-blue-800" x-text="form_file"></p>
+          <p class="text-lg text-blue-800" x-text="dt.form_path"></p>
           <label class="w-full cursor-pointer" for="dropzone-file1">
             <div class="flex items-center justify-center w-full">
               <div
@@ -112,17 +117,20 @@
                 </p>
               </div>
               <input
-                x-on:change="photo_file=uploadFile($event)"
+                x-on:change="dt.photo_path=await uploadFile($event)"
                 id="dropzone-file1"
                 type="file"
                 class="hidden"
+                accept="image/*"
               />
             </div>
           </label>
-          <p class="text-lg text-blue-800" x-text="photo_file"></p>
+          <p class="text-lg text-blue-800" x-text="dt.photo_path"></p>
         </div>
-        <div class="w-full border p-2 justify-center flex">
+
+        <div class="my-2 w-full border p-2 justify-center flex">
           <button
+            :disabled="!dt.form_path || !dt.photo_path"
             class="
               bg-orange-700
               text-white text-xl
@@ -131,6 +139,7 @@
               hover:bg-orange-800
               font-bold
               rounded
+              disabled:bg-blue-200
             "
             type="submit"
           >
@@ -138,6 +147,19 @@
           </button>
         </div>
       </form>
+      <div
+        x-show="returnDt.length>0"
+        class="w-full flex justify-center p-2 border"
+      >
+        <div class="flex flex-col w-full items-center p-2">
+          <p
+            class="text-xl text-blue-700 font-bold p-2"
+            x-text="returnDt[0].name"
+          ></p>
+          <img :src="dt.photo_path" alt="" />
+          <img :src="returnDt[0].qrcode" alt="" />
+        </div>
+      </div>
     </main>
   </body>
 </html>

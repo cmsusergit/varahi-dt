@@ -9,10 +9,8 @@ const uploadFile = async (fileEvent) => {
     const file = fileList[0];
     const fileExt = file.name.split('.').pop();
     const filePath = `${Math.random()}.${fileExt}`;
-
-    console.log('----', filePath);
-    console.log('----', file);
     let { error } = await _supabase.storage
+
       .from('form-photo')
       .upload(`formdt/${filePath}`, file);
     if (error) {
@@ -28,14 +26,16 @@ const uploadFile = async (fileEvent) => {
   }
   return returnValue;
 };
-const getInfo = async () => {
-  //
-  // const { data, error } = await _supabase.storage.from('form-photo').list('.');
-  // console.log('****', data);
-  // console.log('****', error);
-  let { data: VarahiTbl, error } = await _supabase
+const getInfo = async (dt) => {
+  let infoDt = JSON.parse(dt);
+  infoDt.name = crypto.randomUUID();
+  infoDt.qrcode = `https://chart.googleapis.com/chart?cht=qr&chl=${infoDt.name}&chs=150x150&chld=L|0`;
+  console.log('****', infoDt);
+  const { data: VarahiTbl, error } = await _supabase
     .from('VarahiTbl')
-    .select('*');
+    .insert([infoDt])
+    .select();
   console.log(VarahiTbl);
   console.log(error);
+  return VarahiTbl;
 };
