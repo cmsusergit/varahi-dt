@@ -19,7 +19,10 @@
     ></script>
   </head>
   <body>
-    <main x-data="{}" class="mx-auto text-white w-full md:w-10/12 lg:w-8/12">
+    <main
+      x-data="{form_file:'',photo_file:''}"
+      class="mx-auto text-white w-full md:w-10/12 lg:w-8/12"
+    >
       <div>
         <h1 class="bg-orange-700 text-white text-2xl font-bold text-center p-2">
           Varahi Group
@@ -63,10 +66,17 @@
                   >
                 </p>
               </div>
-              <input id="dropzone-file" type="file" class="hidden" />
+
+              <input
+                x-on:change="form_file=uploadFile($event)"
+                id="dropzone-file"
+                type="file"
+                class="hidden"
+              />
             </div>
           </label>
-          <label class="w-full cursor-pointer" for="dropzone-file">
+          <p class="text-lg text-blue-800" x-text="form_file"></p>
+          <label class="w-full cursor-pointer" for="dropzone-file1">
             <div class="flex items-center justify-center w-full">
               <div
                 class="
@@ -101,11 +111,16 @@
                   >
                 </p>
               </div>
-              <input id="dropzone-file" type="file" class="hidden" />
+              <input
+                x-on:change="photo_file=uploadFile($event)"
+                id="dropzone-file1"
+                type="file"
+                class="hidden"
+              />
             </div>
           </label>
+          <p class="text-lg text-blue-800" x-text="photo_file"></p>
         </div>
-
         <div class="w-full border p-2 justify-center flex">
           <button
             class="
