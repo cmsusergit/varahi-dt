@@ -5,11 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
       const SupabaseCred =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNjZmhwenVzYXd0Z2lvamF2aHhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQ3NTk4MDAsImV4cCI6MjAxMDMzNTgwMH0.Hb06Rl186b_4wEmcmIyIqTVUqfJn0rGHszpDlr6jaZQ';
       const SupabaseUrl = 'https://ccfhpzusawtgiojavhxh.supabase.co';
+
       const _supabase = supabase.createClient(SupabaseUrl, SupabaseCred);
+      const jsPDF = window.jspdf.jsPDF;
     </script>
     <script src="./script.js"></script>
     <script
@@ -156,9 +159,31 @@
             class="text-xl text-blue-700 font-bold p-2"
             x-text="returnDt[0].name"
           ></p>
-          <img :src="dt.photo_path" alt="" />
+          <img :src="await getPublicUrl(returnDt[0].photo_path)" alt="" />
           <img :src="returnDt[0].qrcode" alt="" />
         </div>
+      </div>
+
+      <div
+        x-show="returnDt[0].photo_path && returnDt[0].qrcode"
+        class="flex justify-center"
+      >
+        <button
+          class="
+            bg-orange-700
+            text-white text-xl
+            p-2
+            w-48
+            hover:bg-orange-800
+            font-bold
+            rounded
+            disabled:bg-blue-200
+          "
+          x-on:click="const url1=await getPublicUrl(returnDt[0].photo_path);printpdf(url1,returnDt[0].qrcode);"
+          type="button"
+        >
+          PRINT
+        </button>
       </div>
     </main>
   </body>

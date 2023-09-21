@@ -4,6 +4,7 @@
     <title>QRCODE Page</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
       const SupabaseCred =
@@ -25,26 +26,55 @@
     ></script>
   </head>
   <body>
-    <main>
-      
-
-
-
-
-
-
-
-
-
-
-    <main x-data="{dt:{}}" class="mx-auto text-white w-full md:w-10/12 lg:w-8/12">
+    <main
+      x-data="{dt:{}}"
+      class="mx-auto text-white w-full md:w-10/12 lg:w-8/12"
+    >
       <div>
         <h1 class="bg-orange-700 text-white text-2xl font-bold text-center p-2">
           Varahi Group
         </h1>
       </div>
       <div class="p-2 w-full">
-      <input class="my-2 w-full border p-2" type="text"></div>
+        <input class="my-2 w-full border p-2" type="text" />
+      </div>
+
+      <div id="qr-reader" style="width: 500px"></div>
+      <div id="qr-reader-results"></div>
     </main>
+    <script>
+      var resultContainer = document.getElementById('qr-reader-results');
+      var lastResult,
+        countResults = 0;
+
+      function docReady(fn) {
+        if (
+          document.readyState === 'complete' ||
+          document.readyState === 'interactive'
+        ) {
+          setTimeout(fn, 1);
+        } else {
+          document.addEventListener('DOMContentLoaded', fn);
+        }
+      }
+
+      docReady(function () {
+        var resultContainer = document.getElementById('qr-reader-results');
+        var lastResult,
+          countResults = 0;
+        function onScanSuccess(decodedText, decodedResult) {
+          if (decodedText !== lastResult) {
+            ++countResults;
+            lastResult = decodedText;
+            console.log(`Scan result ${decodedText}`, decodedResult);
+          }
+        }
+        var html5QrcodeScanner = new Html5QrcodeScanner('qr-reader', {
+          fps: 10,
+          qrbox: 250,
+        });
+        html5QrcodeScanner.render(onScanSuccess);
+      });
+    </script>
   </body>
 </html>

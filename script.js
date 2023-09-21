@@ -39,3 +39,52 @@ const getInfo = async (dt) => {
   console.log(error);
   return VarahiTbl;
 };
+const getPublicUrl = async (file1) => {
+  const { data: dt } = await _supabase.storage
+    .from('form-photo')
+
+    .getPublicUrl(`formdt/${file1}`);
+  console.log('****', dt.publicUrl);
+  return dt.publicUrl;
+};
+const getDataUri = (url, cb) => {
+  var image = new Image();
+  image.setAttribute('crossOrigin', 'anonymous');
+  image.onload = function () {
+    var canvas = document.createElement('canvas');
+    canvas.width = this.naturalWidth;
+    canvas.height = this.naturalHeight;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    canvas.getContext('2d').drawImage(this, 0, 0);
+    cb(canvas.toDataURL('image/jpeg'));
+  };
+  image.src = url;
+};
+const printpdf = (imgUrl1, qrCode1) => {
+  const doc = new jsPDF({
+    orientation: 'landscape',
+    units: 'pts',
+  });
+  getDataUri(imgUrl1, function (dataUri) {
+    let logo = dataUri;
+    console.log('logo=' + logo);
+    let left = 15;
+    let top = 8;
+    const imgWidth = 50;
+    const imgHeight = 50;
+    doc.addImage(logo, 'PNG', left, top, imgWidth, imgHeight);
+    getDataUri(qrCode1, function (dataUri) {
+      let logo = dataUri;
+      console.log('logo=' + logo);
+      let left = 15;
+      let top = 57 + 8;
+      const imgWidth = 50;
+      const imgHeight = 50;
+      doc.addImage(logo, 'PNG', left, top, imgWidth, imgHeight);
+      doc.output('dataurlnewwindow');
+    });
+  });
+};
