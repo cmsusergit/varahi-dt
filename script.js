@@ -57,7 +57,6 @@ const getDataUri = (url, cb) => {
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     canvas.getContext('2d').drawImage(this, 0, 0);
     cb(canvas.toDataURL('image/jpeg'));
   };
@@ -65,26 +64,38 @@ const getDataUri = (url, cb) => {
 };
 const printpdf = (imgUrl1, qrCode1) => {
   const doc = new jsPDF({
-    orientation: 'landscape',
-    units: 'pts',
+    orientation: 'p',
+    units: 'px',
+    format: 'a5',
   });
   getDataUri(imgUrl1, function (dataUri) {
     let logo = dataUri;
-    console.log('logo=' + logo);
-    let left = 15;
-    let top = 8;
-    const imgWidth = 50;
-    const imgHeight = 50;
+    const ww = doc.internal.pageSize.getWidth();
+    let left = ww / 4 - 10;
+    let top = 10;
+    console.log('----', ww);
+    const imgWidth = ww / 2 + 20;
+    const imgHeight = ww / 2 + 20;
     doc.addImage(logo, 'PNG', left, top, imgWidth, imgHeight);
     getDataUri(qrCode1, function (dataUri) {
       let logo = dataUri;
       console.log('logo=' + logo);
-      let left = 15;
-      let top = 57 + 8;
-      const imgWidth = 50;
-      const imgHeight = 50;
+      let left = ww / 4;
+
+      let top = 10 + ww / 2 + 20;
+      const imgWidth = ww / 2;
+      const imgHeight = ww / 2;
       doc.addImage(logo, 'PNG', left, top, imgWidth, imgHeight);
       doc.output('dataurlnewwindow');
     });
   });
+};
+const fetchDt = async (id) => {
+  console.log(id);
+  const { data: dt } = await _supabase
+    .from('VarahiTbl')
+    .select('*')
+    .eq('name', id);
+  console.log('****', dt);
+  return getPublicUrl(dt[0].form_path);
 };
