@@ -65,12 +65,13 @@ const getDataUri = (url, cb) => {
 const printpdf = (imgUrl1, qrCode1) => {
   const doc = new jsPDF({
     orientation: 'p',
-    units: 'px',
-    format: 'a5',
+    units: 'mm',
+
+    format: 'b5',
   });
   getDataUri(imgUrl1, function (dataUri) {
     let logo = dataUri;
-    const ww = doc.internal.pageSize.getWidth();
+    const ww = doc.internal.pageSize.getWidth() - 100;
     let left = ww / 4 - 10;
     let top = 10;
     console.log('----', ww);
@@ -80,7 +81,7 @@ const printpdf = (imgUrl1, qrCode1) => {
     getDataUri(qrCode1, function (dataUri) {
       let logo = dataUri;
       console.log('logo=' + logo);
-      let left = ww / 4;
+      let left = (ww + 25) / 4;
 
       let top = 10 + ww / 2 + 20;
       const imgWidth = ww / 2;
